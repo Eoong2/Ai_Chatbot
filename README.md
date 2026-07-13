@@ -1,75 +1,46 @@
-# React + TypeScript + Vite
+# AI Chatbot Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+이 프로젝트는 3인의 프론트엔드 개발자가 협업하기 위해 구축된 React + TypeScript + Vite 기반의 레포지토리입니다.
 
-Currently, two official plugins are available:
+## 🚀 시작하기 (Getting Started)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+이 레포지토리를 클론하고 로컬 서버를 실행하는 방법입니다.
 
-## React Compiler
+```bash
+# 1. 레포지토리 클론
+git clone https://github.com/Eoong2/Ai_Chatbot.git
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 2. 프로젝트 폴더로 이동
+cd Ai_Chatbot/chatbot-client
 
-## Expanding the ESLint configuration
+# 3. 의존성 패키지 설치
+npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+# 4. 개발 서버 실행
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📂 폴더 구조 (Folder Structure)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+협업을 위해 다음과 같이 `src` 내부에 폴더를 분리하여 관리합니다.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `src/components/`: 여러 곳에서 재사용되는 공통 UI 컴포넌트
+- `src/pages/` : 라우팅되는 각 화면(페이지) 단위 컴포넌트
+- `src/hooks/`: 커스텀 React 훅 (Custom Hooks)
+- `src/services/`: 백엔드 API 연동을 위한 함수 및 로직
+- `src/store/`: 전역 상태 관리
+- `src/utils/`: 공통으로 사용되는 헬퍼 함수 및 유틸리티
+- `src/types/`: 전역으로 사용되는 TypeScript 인터페이스 및 타입 정의
 
+## 💅 코드 포맷팅 (Prettier)
+
+코드 스타일(들여쓰기, 따옴표 등) 차이로 인한 병합 충돌(Merge Conflict)을 방지하기 위해 Prettier가 설정되어 있습니다.
+
+코드를 작성하신 후, 터미널에서 아래 명령어를 실행하면 코드가 자동으로 깔끔하게 정렬됩니다.
+(또는 VS Code 등 에디터의 'Format on Save' 기능을 활성화하시면 더 편리합니다.)
+
+```bash
+npm run format
 ```
+
+- 상세 포맷팅 설정은 최상단의 `.prettierrc` 파일에 정의되어 있습니다.
