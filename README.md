@@ -44,3 +44,26 @@ npm run format
 ```
 
 - 상세 포맷팅 설정은 최상단의 `.prettierrc` 파일에 정의되어 있습니다.
+
+## 🛠️ 기능 구현 현황 (Implementation Status)
+
+프론트엔드 UI 작업을 바로 시작할 수 있도록 핵심 로직들이 미리 구현되어 있습니다.
+
+### 1. `useChat` 커스텀 훅
+- 경로: `src/hooks/useChat.ts`
+- 역할: 채팅 메시지 배열 관리, 상태 업데이트, 백엔드 데이터 요청
+- 사용법: 컴포넌트 내에서 `const { messages, isLoading, sendMessage } = useChat();`를 호출하여 사용합니다.
+
+### 2. 가짜 데이터 (Mock Data) 연동
+- 백엔드 API가 완성되기 전까지 프론트엔드 작업을 원활히 진행하기 위해 가짜 데이터를 연동해 두었습니다.
+- `useChat`에서 메시지를 전송하면 2.5초 지연(로딩 스피너 테스트용) 후 `src/utils/dummyData.json` 데이터를 가져와 테이블 형태의 응답을 반환합니다.
+
+### 3. API Proxy 설정
+- 경로: `vite.config.ts`
+- 로컬 환경에서 CORS 에러 없이 백엔드(`http://localhost:8080`)와 통신할 수 있도록 `/api` 경로에 대한 Proxy가 설정되어 있습니다.
+
+## 🧪 기능 테스트 방법
+
+현재 `src/App.tsx` 파일에 임시 테스트용 UI가 작성되어 있습니다. 개발 서버를 띄우고( `npm run dev` ), 화면 하단 입력창에 임의의 텍스트를 입력하면 가짜 데이터가 2.5초 뒤에 테이블 형태로 렌더링되는 과정을 테스트해 볼 수 있습니다! 
+
+이제 이 뼈대를 바탕으로 실제 디자인된 `components` 및 `pages` 작업을 진행해 주시면 됩니다.
