@@ -4,19 +4,11 @@
 
 ## 🚀 시작하기 (Getting Started)
 
-이 레포지토리를 클론하고 로컬 서버를 실행하는 방법입니다.
 
 ```bash
-# 1. 레포지토리 클론
-git clone https://github.com/Eoong2/Ai_Chatbot.git
 
-# 2. 프로젝트 폴더로 이동
-cd Ai_Chatbot/chatbot-client
 
-# 3. 의존성 패키지 설치
-npm install
-
-# 4. 개발 서버 실행
+# 개발 서버 실행
 npm run dev
 ```
 
@@ -67,3 +59,51 @@ npm run format
 현재 `src/App.tsx` 파일에 임시 테스트용 UI가 작성되어 있습니다. 개발 서버를 띄우고( `npm run dev` ), 화면 하단 입력창에 임의의 텍스트를 입력하면 가짜 데이터가 2.5초 뒤에 테이블 형태로 렌더링되는 과정을 테스트해 볼 수 있습니다! 
 
 이제 이 뼈대를 바탕으로 실제 디자인된 `components` 및 `pages` 작업을 진행해 주시면 됩니다.
+
+---
+
+## 📡 API 통신 규격 (API Specification)
+
+프론트엔드와 백엔드가 주고받을 챗봇 API 통신 규격입니다. (상세 내용은 `src/types/chat.ts` 참조)
+
+### **[POST] `/api/v1/chat`**
+- **목적**: 사용자의 질문(query)을 백엔드로 전송하고 챗봇의 답변을 받습니다.
+
+#### **Request (요청)**
+```json
+{
+  "query": "서울시 2호선 혼잡도 알려줘"
+}
+```
+
+#### **Response (응답)**
+백엔드에서는 다음과 같은 형식으로 응답을 내려주어야 합니다. `dataType`이 `TEXT`인지 `TABLE`인지에 따라 화면에 렌더링되는 방식이 달라집니다.
+
+**1. 일반 텍스트 응답일 경우 (`dataType: "TEXT"`)**
+```json
+{
+  "resultCode": 200,
+  "resultMessage": "SUCCESS",
+  "data": {
+    "dataType": "TEXT",
+    "message": "안녕하세요! 무엇을 도와드릴까요?"
+  }
+}
+```
+
+**2. 표(Table) 데이터 응답일 경우 (`dataType: "TABLE"`)**
+```json
+{
+  "resultCode": 200,
+  "resultMessage": "SUCCESS",
+  "data": {
+    "dataType": "TABLE",
+    "message": "요청하신 서울시 지하철 혼잡도 데이터입니다.",
+    "columns": ["노선", "역명", "혼잡도(%)", "상태"],
+    "items": [
+      { "노선": "2호선", "역명": "강남", "혼잡도(%)": 85, "상태": "혼잡" },
+      { "노선": "2호선", "역명": "홍대입구", "혼잡도(%)": 70, "상태": "보통" }
+    ]
+  }
+}
+```
