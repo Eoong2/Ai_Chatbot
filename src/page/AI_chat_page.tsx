@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchChatAnswer } from '../services/chatService';
 import { FiSend } from 'react-icons/fi';
-import DataSidebar from '../components/DataSidebar';
+import { DataSidebar } from '../components/DataSidebar';
 
 const RECOMMENDATIONS = [
   { text: '부산에서 책 읽기 좋은 조용한 도서관 알려줘', icon: '📚' },
