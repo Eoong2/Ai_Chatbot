@@ -1,13 +1,28 @@
 {
-  "resultCode": 200,
-  "resultMessage": "SUCCESS",
+  "success": true,
   "data": {
-    "dataType": "TABLE",  
-    "message": "요청하신 서울시 지하철 혼잡도 데이터입니다.",
-    "columns": ["노선", "역명", "혼잡도(%)", "상태"], 
-    "items": [ 
-      { "노선": "2호선", "역명": "강남", "혼잡도(%)": 85, "상태": "혼잡" },
-      { "노선": "2호선", "역명": "홍대입구", "혼잡도(%)": 70, "상태": "보통" }
+    "answer": "요청하신 **부산광역시 교통량 현황**과 관련된 공공데이터를 찾았습니다. 해당 데이터는 CSV 포맷으로 제공되고 있으며, 상세 내역은 화면 우측 데이터셋 목록에서 바로 확인하실 수 있습니다.",
+    "resultCount": 2,
+    "results": [
+      {
+        "publicDataPk": "15133204",
+        "title": "부산도시공사_청년 매입임대주택 현황",
+        "institution": "부산도시공사",
+        "listType": "DATA",
+        "format": "CSV",
+        "description": "청년 매입임대주택 현황 정보입니다.",
+        "url": "https://data.busan.go.kr/bdip/opendata/detail.do?publicdatapk=15133204"
+      },
+      {
+        "publicDataPk": "15130002",
+        "title": "부산광역시 실시간 버스 도착 정보",
+        "institution": "부산광역시",
+        "listType": "API",
+        "format": "JSON",
+        "description": "부산광역시 시내버스의 실시간 도착 정보를 제공하는 OpenAPI입니다.",
+        "url": "https://data.busan.go.kr/bdip/opendata/detail.do?publicdatapk=15130002"
+      }
     ]
-  }
+  },
+  "message": null
 }

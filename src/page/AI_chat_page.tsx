@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchChatAnswer } from '../services/chatService';
 import { FiSend } from 'react-icons/fi';
 import { DataSidebar } from '../components/DataSidebar';
+import ReactMarkdown from 'react-markdown';
 
 const RECOMMENDATIONS = [
   { text: '부산에서 책 읽기 좋은 조용한 도서관 알려줘', icon: '📚' },
@@ -20,6 +21,7 @@ const AI_chat_page = () => {
   const [chatResponse, setChatResponse] = useState<any>(null);
   const [chatHistory, setChatHistory] = useState<{ query: string; response: any }[]>([]);
   const [isStarted, setIsStarted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getRandomItems = () => {
     const shuffled = [...RECOMMENDATIONS].sort(() => 0.5 - Math.random());
@@ -36,12 +38,21 @@ const AI_chat_page = () => {
 
     setIsStarted(true);
     setInputValue("");
+    setIsLoading(true);
+
+    // 이전 대화 기록을 보존하며 사용자 질문 먼저 화면에 띄움
+    setChatHistory(prev => [...prev, { query: textToSearch, response: null }]);
 
     const response = await fetchChatAnswer(textToSearch);
 
-    // 이전 대화 기록을 보존하며 새 대화 추가
-    setChatHistory(prev => [...prev, { query: textToSearch, response }]);
+    // 응답이 오면 마지막 채팅의 response 부분을 업데이트
+    setChatHistory(prev => {
+      const newHistory = [...prev];
+      newHistory[newHistory.length - 1].response = response;
+      return newHistory;
+    });
     setChatResponse(response); 
+    setIsLoading(false);
   };
 
   return (
@@ -111,10 +122,20 @@ const AI_chat_page = () => {
                 <div className="text-right">
                   <span className="bg-[#1b3b6f] text-white px-4 py-2 rounded-2xl inline-block">{chat.query}</span>
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                  <p className="text-gray-700">{chat.response?.data?.message || "답변에 필요한 데이터를 찾고 있습니다."}</p>
-                  <br />
-                  <p className="text-gray-700">각 데이터는 화면 오른쪽의 데이터셋 목록에서 더 자세히 알아볼 수 있습니다.</p>
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-2">
+                  {chat.response ? (
+                    <>
+                      <div className="prose prose-sm max-w-none text-gray-800 leading-relaxed">
+                        <ReactMarkdown>{chat.response.data.answer}</ReactMarkdown>
+                      </div>
+                      <p className="text-gray-400 text-xs mt-4 pt-4 border-t border-gray-100">각 데이터는 화면 오른쪽의 데이터셋 목록에서 더 자세히 알아볼 수 있습니다.</p>
+                    </>
+                  ) : (
+                    <div className="flex items-center gap-3 text-gray-500 py-2">
+                      <div className="w-5 h-5 border-2 border-[#1b3b6f] border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-sm font-medium">데이터를 분석하며 답변을 생성 중입니다...</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -133,7 +154,10 @@ const AI_chat_page = () => {
           />
           <button
             onClick={() => handleSend()}
-            className="bg-[#1b3b6f] text-white w-12 h-12 flex items-center justify-center rounded-full hover:bg-[#143057] transition-all"
+            disabled={isLoading}
+            className={`w-12 h-12 flex items-center justify-center rounded-full transition-all ${
+              isLoading ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#1b3b6f] text-white hover:bg-[#143057]'
+            }`}
           >
             <FiSend />
           </button>

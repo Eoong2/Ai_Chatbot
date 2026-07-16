@@ -28,12 +28,8 @@ export const useChat = () => {
       const botMessage: Message = {
         id: Date.now() + 1,
         sender: 'bot',
-        type: response.data.dataType,
-        text: response.data.message,
-        tableData: response.data.dataType === 'TABLE' ? {
-          columns: response.data.columns || [],
-          items: response.data.items || []
-        } : undefined
+        text: response.data.answer,
+        datasets: response.data.results
       };
       
       setMessages((prev) => [...prev, botMessage]);
